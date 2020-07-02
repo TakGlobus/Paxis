@@ -5,22 +5,35 @@
 % Original By Xiaoguang Feng. 02/18/2003
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-expname='low-';
-cluster_list = {5};
-%cluster_list = {13};
+homedir='/home/tkurihana/scratch-midway2/figs/';
+%expname='67011582';
+expname='m2_02_global_2000_2018_band28_29_31';
+expname_suf='low-';
+nclusters='20';
 %cluster_list = {6,9};
-for j=1:length(cluster_list)
-  cluster = int2str(cluster_list{j});
-  datadir=['./cluster-', cluster];
+%for j=1:length(cluster_list)
+%  cluster = int2str(cluster_list{j});
+for icluster=1:20
+  cluster=int2str(icluster-1);
+  datadir=[homedir, expname, '/cluster-', cluster,'_N-',nclusters];
+  disp(datadir)
   Files = dir([datadir, '/*low*.*']);
   %parfor i=1:length(Files)
-  %for i=1:length(Files)
-  for i=1:2
+  for i=1:length(Files)
     Filenames=Files(i).name;
     [filepath,ifile, ext] = fileparts(Filenames);
-    bname = extractAfter(ifile, expname);
-    logname=['./logs/cluster-',cluster,'/',ifile,'.txt'];
-    name=['./results/cluster-',cluster,'/',ifile];
+    bname = extractAfter(ifile, expname_suf);
+
+    % dir setting
+    logdir=['./protocol/logs/','cluster-',cluster,'_N-',nclusters];
+    logname=[logdir,'/',ifile,'.txt'];
+    namedir=['./protocol/results/','cluster-',cluster,'_N-',nclusters];
+    name=[namedir,'/',ifile];
+    
+    % make dir
+    mkdir(logdir);
+    mkdir(namedir);
+
     %fprintf('Current worker = %1d | Process --> %2s \n', labindex, ifile);
     fprintf('Current worker = %1s | Process --> %2s \n', int2str(i), ifile);
     disp(name);
