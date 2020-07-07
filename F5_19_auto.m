@@ -6,28 +6,35 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 homedir='/home/tkurihana/scratch-midway2/figs/';
-%expname='67011582';
-expname='m2_02_global_2000_2018_band28_29_31';
+expname='67011582';
+%expname='m2_02_global_2000_2018_band28_29_31';
 expname_suf='low-';
 nclusters='20';
-%cluster_list = {6,9};
-%for j=1:length(cluster_list)
-%  cluster = int2str(cluster_list{j});
-for icluster=1:20
-  cluster=int2str(icluster-1);
+cluster_list ={1};
+for j=1:length(cluster_list)
+  cluster = int2str(cluster_list{j});
+%for icluster=1:20
+  %cluster=int2str(icluster-1);
   datadir=[homedir, expname, '/cluster-', cluster,'_N-',nclusters];
-  disp(datadir)
+  %disp(datadir)
   Files = dir([datadir, '/*low*.*']);
   %parfor i=1:length(Files)
-  for i=1:length(Files)
+  %for i=41:length(Files)
+  %for i=1:length(Files)
+  for i=1:1
     Filenames=Files(i).name;
+    %Filenames= ['/fig_clustering_low-', expname ,'_gray_n-',int2str(i),'_N-',nclusters,'.jpg'];
     [filepath,ifile, ext] = fileparts(Filenames);
-    bname = extractAfter(ifile, expname_suf);
+    %bname = extractAfter(ifile, expname_suf);
+    %ifile = extractBefore(Filenames, '.jpg');
 
     % dir setting
-    logdir=['./protocol/logs/','cluster-',cluster,'_N-',nclusters];
-    logname=[logdir,'/',ifile,'.txt'];
-    namedir=['./protocol/results/','cluster-',cluster,'_N-',nclusters];
+    %logdir=['./protocol/logs2/',expname,'/cluster-',cluster,'_N-',nclusters];
+    logdir=['./protocol/Orients/',expname,'/cluster-',cluster,'_N-',nclusters];
+    %logname=[logdir,'/',ifile,'.txt'];
+    %logname=[logdir,'/',ifile,'_table.txt'];
+    logname=[logdir,'/',ifile,'_table.csv'];
+    namedir=['./protocol/results/',expname,'/cluster-',cluster,'_N-',nclusters];
     name=[namedir,'/',ifile];
     
     % make dir
@@ -36,8 +43,8 @@ for icluster=1:20
 
     %fprintf('Current worker = %1d | Process --> %2s \n', labindex, ifile);
     fprintf('Current worker = %1s | Process --> %2s \n', int2str(i), ifile);
-    disp(name);
-    disp(logname);
+    %disp(name);
+    %disp(logname);
      
     I=double(imread([datadir,'/',Filenames]));
     OM=Pyramid(I,400,4,3,1,2,2,name, logname);
