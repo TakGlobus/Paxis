@@ -5,6 +5,7 @@ function ShowOrientation(Orient,image,name)
     %figure;
     %fig = figure;
     imagesc(image);
+    %colormap(jet);
     colormap(gray);
     axis image;
     axis off;
@@ -15,7 +16,8 @@ function ShowOrientation(Orient,image,name)
       step2/2:step2:size(image,2));
     u=real(Orient)./abs(Orient);  
     v=-imag(Orient)./abs(Orient);
-    h=quiver(x,y,v,u);
+    %h=quiver(x,y,v,u);
+    h=quiver(x,y,v,u,'linewidth',5);
     set(h,'color','red');
     
     %figure;
@@ -31,7 +33,7 @@ function ShowOrientation(Orient,image,name)
 
 
  % Tak add: Save image
-    print(gcf,'-djpeg',[name, '.jpg'],'-r100');
+    %print(gcf,'-djpeg',[name, '.jpg'],'-r100');
 
     %filename = [name,'.jpg'];
     %saveas("gcf", filename);

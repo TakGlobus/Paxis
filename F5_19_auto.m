@@ -6,24 +6,36 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 homedir='/home/tkurihana/scratch-midway2/figs/';
-expname='67011582';
-%expname='m2_02_global_2000_2018_band28_29_31';
+%expname='67011582';
+expname='m2_02_global_2000_2018_band28_29_31';
 expname_suf='low-';
 nclusters='20';
-cluster_list ={1};
+%cluster_list ={3};
+%cluster_list ={4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19};
+cluster_list ={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19};
+%index_list = {380,98,103,81,85,379,76,252,91,80};
+
+%IO
+%topK=10;
+%index_matrix = dlmread(['./tmp/', 'select_', expname, '.txt']);
+%disp(index_matrix);
+%disp(size(index_matrix));
+
+
 for j=1:length(cluster_list)
   cluster = int2str(cluster_list{j});
-%for icluster=1:20
+  %for icluster=1:20
   %cluster=int2str(icluster-1);
   datadir=[homedir, expname, '/cluster-', cluster,'_N-',nclusters];
-  %disp(datadir)
   Files = dir([datadir, '/*low*.*']);
   %parfor i=1:length(Files)
-  %for i=41:length(Files)
-  %for i=1:length(Files)
-  for i=1:1
-    Filenames=Files(i).name;
-    %Filenames= ['/fig_clustering_low-', expname ,'_gray_n-',int2str(i),'_N-',nclusters,'.jpg'];
+  %for ix=1:length(Files)
+  index_list = index_matrix(cluster_list{j}+1,:);
+  disp(index_list);
+  for ix=1:topK
+    %Filenames=Files(i).name;
+    i = index_list(ix);
+    Filenames= ['/fig_clustering_low-', expname ,'_gray_n-',int2str(i),'_N-',nclusters,'.jpg'];
     [filepath,ifile, ext] = fileparts(Filenames);
     %bname = extractAfter(ifile, expname_suf);
     %ifile = extractBefore(Filenames, '.jpg');
